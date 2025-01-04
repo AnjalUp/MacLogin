@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacOS Mobile Login</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #e8eaed, #d3d7dd);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1em;
+        }
+
+        /* Window Container */
+        .window {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Window Header */
+        .window-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.8em 1em;
+            background: #f4f4f6;
+            border-bottom: 1px solid #d1d1d4;
+        }
+
+        .window-buttons {
+            display: flex;
+            gap: 0.6em;
+        }
+
+        .window-button {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .window-button.close {
+            background: #ff5f57;
+        }
+
+        .window-button.minimize {
+            background: #ffbd2e;
+        }
+
+        .window-button.maximize {
+            background: #28c940;
+        }
+
+        .window-title {
+            margin-left: auto;
+            font-size: 0.9em;
+            color: #5f5f61;
+        }
+
+        /* Login Form */
+        .login-form {
+            padding: 2em 1.5em;
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 1.4em;
+            margin-bottom: 1em;
+            color: #333;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 1em;
+            margin: 0.7em 0;
+            border: 1px solid #d1d1d4;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: #007aff;
+            box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 1em;
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 1.2em;
+        }
+
+        .login-button:hover {
+            background: #005bb5;
+        }
+
+        /* Popup Message */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 300px;
+            padding: 1.5em;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+
+        .popup-header .popup-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .popup-close {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff5f57;
+            cursor: pointer;
+        }
+
+        .popup-body {
+            font-size: 1em;
+            color: #333;
+        }
+
+        .popup-body .emoji {
+            font-size: 2em;
+            margin: 0.5em 0;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="window-header">
+            <div class="window-buttons">
+                <div class="window-button close"></div>
+                <div class="window-button minimize"></div>
+                <div class="window-button maximize"></div>
+            </div>
+            <div class="window-title">MacOS Login</div>
+        </div>
+        <div class="login-form">
+            <div class="login-title">Welcome Back</div>
+            <input type="text" class="login-input" id="username" placeholder="Username" required>
+            <input type="password" class="login-input" id="password" placeholder="Password" required>
+            <button class="login-button" onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <div class="popup-title">Login Successful</div>
+            <div class="popup-close" onclick="closePopup()"></div>
+        </div>
+        <div class="popup-body">
+            <div class="emoji">🎉</div>
+            Welcome, Admin!<br>Have a great day! 😊
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for login and popup
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'anjal' && password === '1302') {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('popup').style.display = 'block';
+            } else {
+                alert('Invalid credentials! Try again.');
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
